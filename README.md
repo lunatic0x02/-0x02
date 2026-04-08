@@ -1,6 +1,6 @@
-# ✨ KDE Dotfiles
+# ✨ Δ0x02
 My personal KDE custom themes! Installation script, assets, and source are included here.  
-You may use install-desktop-pack.sh to install needed packages.
+You may use <distro>-install-desktop-pack.sh to install needed packages.
 
 ## Applet
 **Control** - https://store.kde.org/p/2196105  
