@@ -18,12 +18,14 @@ fi
 echo "Reloading..."
 if pgrep -x "kwin_wayland" >/dev/null; then
     # Wayland session
-    qdbus-qt6 org.kde.KWin /KWin reconfigure
-    # kwin_wayland --replace & disown
+    qdbus org.kde.KWin /KWin reconfigure
+    #kwin_wayland --replace #disown
+    #plasmashell --replace
 else
     # X11 session
-    qdbus-qt6 org.kde.KWin /KWin reconfigure
-    # kwin_x11 --replace & disown
+    qdbus org.kde.KWin /KWin reconfigure
+    #kwin_x11 --replace #disown
+    #plasmashell --replace
 fi
 
 echo "Karousel Toggled."

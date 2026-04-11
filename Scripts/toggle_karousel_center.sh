@@ -23,11 +23,11 @@ if [[ "$ENABLECURRENT" == "true" ]]; then
     # Apply changes
     echo "Reloading..."
     kwriteconfig6 --file kwinrc --group Plugins --key "$ENABLEKEY" false &
-    qdbus-qt6 org.kde.KWin /KWin reconfigure &
+    qdbus org.kde.KWin /KWin reconfigure &
     sleep 0.2
     wait
     kwriteconfig6 --file kwinrc --group Plugins --key "$ENABLEKEY" true
-    qdbus-qt6 org.kde.KWin /KWin reconfigure
+    qdbus org.kde.KWin /KWin reconfigure
 
     echo "Karousel Centered is Toggled."
 else

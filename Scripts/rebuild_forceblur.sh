@@ -1,5 +1,5 @@
 #!/bin/bash
-cd ~/Apps/kwin-effects-forceblur/
+cd ~/builds/kwin-effects-better-blur-dx/
 rm -rf build
 mkdir build
 cd build

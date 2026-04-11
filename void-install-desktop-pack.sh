@@ -2,40 +2,23 @@
 
 set -e
 STARTING_DIR="$(pwd)"
+THEME_NAME="milkyway"
 
 # Installing Required Desktop Packages
 echo "# Installing Required Desktop Packages"
-sudo xbps-install -y git stow kvantum
+sudo xbps-install -y git kvantum megatools python3-pipx
+pipx install konsave
+pipx ensurepath
+megadl --path ./ $(grep '^URL' "${THEME_NAME}".desktop | cut -d'=' -f2-)
+konsave -i "${THEME_NAME}".knsv
+ln -s $HOME/-0x02/Scripts/ $HOME
 
-echo "# Stowing Desktop Theme"
-THEME="milkyway"
-kquitapp6 plasmashell
-stow -R "$THEME" --adopt
-kstart plasmashell
-
-# Setting Kvantum Theme
+# Setting Kvantum Theme ####
 echo "# Setting Kvantum Theme"
 kvantummanager --set "$(grep '^theme=' ~/.config/Kvantum/kvantum.kvconfig | sed 's/theme=//')"
 
-# Installing Plasmoids
-echo "# Installing Plasmoids"
 
-PLASMOIDS_DIR="$STARTING_DIR/milkyway/.local/share/plasma/plasmoids"
-if [ ! -d "$PLASMOIDS_DIR" ]; then
-    echo "Plasmoids directory not found: $PLASMOIDS_DIR"
-    exit 1
-fi
-
-for widget in "$PLASMOIDS_DIR"/*; do
-    if [[ "$(basename "$widget")" == org.kde.plasma.* ]]; then
-        continue
-    fi
-
-    echo "Installing plasmoid: $(basename "$widget")"
-    kpackagetool6 --install "$widget" || true
-done
-
-# Building Better Blur
+# Building Better Blur ####
 echo "# Building Better Blur"
 mkdir -p ~/builds
 cd ~/builds
@@ -54,12 +37,18 @@ cmake .. -DCMAKE_INSTALL_PREFIX=/usr
 make -j"$(nproc)"
 sudo make install
 
-# Building Shader Wallpaper
+
+# Building Shader Wallpaper ####
+cd ~/builds
+
 git clone https://github.com/y4my4my4m/kde-shader-wallpaper.git
 rm -rf ~/.local/share/plasma/wallpapers/online.knowmad.shaderwallpaper/
 kpackagetool6 -t Plasma/Wallpaper -i kde-shader-wallpaper/package
 
-# Finishing
+
+# Finishing ####
+echo "# Applying all configs"
+konsave -a $THEME_NAME
 echo "# Restarting Plasma Shell (Plasma 6)"
 kquitapp6 plasmashell || true
 plasmashell --replace &>/dev/null &
