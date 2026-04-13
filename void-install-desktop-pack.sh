@@ -9,7 +9,9 @@ echo "# Installing Required Desktop Packages"
 sudo xbps-install -y git kvantum megatools python3-pipx
 pipx install konsave
 pipx ensurepath
-megadl --path ./ $(grep '^URL' "${THEME_NAME}".desktop | cut -d'=' -f2-)
+if [ ! -d "${THEME_NAME}".desktop ]; then
+    megadl --path ./ $(grep '^URL' "${THEME_NAME}".desktop | cut -d'=' -f2-)
+fi
 konsave -i "${THEME_NAME}".knsv
 ln -s $HOME/-0x02/Scripts/ $HOME
 
